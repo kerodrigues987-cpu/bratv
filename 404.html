@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BRATV</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#050507">
+<style>
+:root{color-scheme:dark}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050507;color:#fff;font:16px system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;padding:24px;box-sizing:border-box}
+img{height:42px;width:auto;margin-bottom:18px}
+p{color:#a7a7b5;margin:8px 0 22px}
+a{display:inline-block;background:#e5132b;color:#fff;text-decoration:none;font-weight:700;padding:13px 24px;border-radius:10px}
+#msg[hidden],#nf[hidden]{display:none}
+</style>
+</head>
+<body>
+<div>
+  <img src="/logo.png" alt="BRATV">
+  <div id="msg"><p>Abrindo…</p></div>
+  <div id="nf" hidden><h1 style="font-size:22px;margin:0">Página não encontrada</h1><p>Esse endereço não existe ou o link expirou.</p><a href="/">Ir para a BRATV</a></div>
+</div>
+<script>
+// Links curtos da BRATV: bratv.net/codigo  ->  destino com utm_source, utm_campaign e ref
+(async () => {
+  const codigo = decodeURIComponent(location.pathname.replace(/^\/+|\/+$/g, "")).toLowerCase();
+  const naoAchou = () => { document.getElementById("msg").hidden = true; document.getElementById("nf").hidden = false; };
+  if (!codigo || codigo.includes("/")) return naoAchou();
+  try {
+    const D = await (await fetch("/site.json?v=" + Date.now(), { cache: "no-store" })).json();
+    const L = (D.links || []).find(l => String(l.codigo || "").toLowerCase() === codigo);
+    if (!L) return naoAchou();
+    const url = new URL(L.destino || "/", location.origin);
+    if (L.origem) url.searchParams.set("utm_source", L.origem);
+    if (L.campanha) url.searchParams.set("utm_campaign", L.campanha);
+    url.searchParams.set("ref", codigo);
+    const ep = "https://script.google.com/macros/s/AKfycbzd172L9dOLvHoMEnFhhw5SH_cBbZStj2hYwXdhW-LKihxi_OLGJwSzMU3nwCWnVl07/exec";
+    let vis = "anon"; try { vis = localStorage.getItem("bratv_v") || (localStorage.setItem("bratv_v", vis = Math.random().toString(36).slice(2, 12)), vis); } catch (e) {}
+    try { fetch(ep, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ tipo: "link", link: codigo, origem: L.origem || "", campanha: L.campanha || "", visitante: vis, dispositivo: innerWidth < 768 ? "celular" : "pc", ref: (document.referrer || "").slice(0, 120) }) }).catch(() => {}); } catch (e) {}
+    setTimeout(() => location.replace(url.toString()), 150);
+  } catch (e) { naoAchou(); }
+})();
+</script>
+</body>
+</html>

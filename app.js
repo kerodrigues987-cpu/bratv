@@ -1,6 +1,5 @@
 // BRATV — o conteúdo vem do site.json (editado pelo painel /admin)
 const CONFIG = {
-  planilha: "",   // URL do Apps Script (Google Planilhas) que recebe os leads
   jogos: "https://script.google.com/macros/s/AKfycbzd172L9dOLvHoMEnFhhw5SH_cBbZStj2hYwXdhW-LKihxi_OLGJwSzMU3nwCWnVl07/exec"
 };
 const $ = id => document.getElementById(id);
@@ -181,10 +180,38 @@ function calc() {
   $("tot").textContent = "R$ " + fmt(Math.round(tot)); $("nm").textContent = a * 12;
 }
 
+/* ---------- Origem e análise ---------- */
+const ss = { get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (e) {} } };
+function lerOrigem() {
+  let q = {}; try { q = Object.fromEntries(new URLSearchParams(location.search)); } catch (e) {}
+  const salvo = ss.get("bratv_origem");
+  if (salvo && !q.utm_source) return JSON.parse(salvo);
+  let o = (q.utm_source || "").toLowerCase();
+  if (!o) {
+    const r = (document.referrer || "").toLowerCase();
+    o = /instagram/.test(r) ? "instagram" : /facebook|fb\./.test(r) ? "facebook" : /google/.test(r) ? "google" : /youtube/.test(r) ? "youtube" : /tiktok/.test(r) ? "tiktok" : /whatsapp|wa\.me/.test(r) ? "whatsapp" : "direto";
+  }
+  const v = { origem: o, campanha: q.utm_campaign || "", link: q.ref || "" };
+  ss.set("bratv_origem", JSON.stringify(v));
+  return v;
+}
+const ORIG = lerOrigem();
+function origem() { return ORIG.origem; }
+function visitante() { try { let v = localStorage.getItem("bratv_v"); if (!v) { v = Math.random().toString(36).slice(2, 12); localStorage.setItem("bratv_v", v); } return v; } catch (e) { return "anon"; } }
+function track(tipo, extra) {
+  const dado = Object.assign({ tipo, origem: ORIG.origem, campanha: ORIG.campanha, link: ORIG.link, dispositivo: innerWidth < 768 ? "celular" : "pc", visitante: visitante(), ref: (document.referrer || "").slice(0, 120) }, extra || {});
+  if (CONFIG.jogos) { try { fetch(CONFIG.jogos, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain" }, body: JSON.stringify(dado) }).catch(() => {}); } catch (e) {} }
+  if (window.gtag) { try { gtag("event", tipo === "visita" ? "page_view_bratv" : tipo, { origem: ORIG.origem, aparelho: dado.aparelho || "" }); } catch (e) {} }
+}
+function ligarGA(id) {
+  if (!id || !/^G-[A-Z0-9]+$/i.test(id)) return;
+  const sc = document.createElement("script"); sc.async = true; sc.src = "https://www.googletagmanager.com/gtag/js?id=" + id; document.head.appendChild(sc);
+  window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
+  gtag("js", new Date()); gtag("config", id);
+}
+
 /* ---------- Lead ---------- */
-function origem() { try { return new URLSearchParams(location.search).get("utm_source") || "direto"; } catch (e) { return "direto"; } }
 function codigo(o) { const m = { facebook: "FB", fb: "FB", instagram: "IG", ig: "IG", google: "GG", youtube: "YT", yt: "YT", tiktok: "TK", whatsapp: "WA", direto: "DR" }; const pre = m[o.toLowerCase()] || o.replace(/[^a-z0-9]/gi, "").slice(0, 2).toUpperCase() || "DR"; return "BRA-" + pre + Math.random().toString(36).slice(2, 7).toUpperCase(); }
-function salvarLead(lead) { if (!CONFIG.planilha) return; try { fetch(CONFIG.planilha, { method: "POST", mode: "no-cors", body: JSON.stringify(lead) }).catch(() => {}); } catch (e) {} }
 function setupLead() {
   const zap = msg => "https://wa.me/" + (D.whatsapp || "") + "?text=" + encodeURIComponent(msg);
   const ABRE = D.mensagem || "Gostaria de testar grátis o sistema vitalício e sem mensalidade dos canais.";
@@ -197,16 +224,18 @@ function setupLead() {
     nome = $("nome").value.trim();
     if (nome.length < 2) { $("err").textContent = "Digite seu nome para continuar."; $("nome").focus(); return; }
     $("err").textContent = "";
+    track("lead_nome");
     $("ola").textContent = nome.split(" ")[0] + ", onde você vai assistir?";
     passo(2);
   });
   $("voltar").addEventListener("click", () => passo(1));
+  [...document.querySelectorAll(".js-zap"), $("abrirZap")].forEach(a => a.addEventListener("click", () => track("whatsapp")));
   document.querySelectorAll(".dev").forEach(b => b.addEventListener("click", () => {
     const ap = b.dataset.d;
     $("abrirZap").href = zap(ABRE + "\nNome: " + nome + "\nAparelho: " + ap + "\nCupom de desconto: " + COD);
     $("resumo").innerHTML = "Seu cupom de desconto:<br><span class=\"coupon\">" + COD + "</span><br>Toque no botão para liberar o teste no seu " + esc(ap === "Outro aparelho" ? "aparelho" : ap) + ".";
     passo(3);
-    salvarLead({ codigo: COD, nome, aparelho: ap, origem: origem(), data: new Date().toISOString() });
+    track("lead", { codigo: COD, nome, aparelho: ap });
   }));
 }
 
@@ -216,6 +245,8 @@ async function boot() {
     const r = await fetch("site.json?v=" + Date.now(), { cache: "no-store" });
     D = await r.json();
   } catch (e) { D = { destaques: [], textos: {} }; }
+  ligarGA(D.ga);
+  track("visita");
   render();
   setupBillboard();
   setupCounters();

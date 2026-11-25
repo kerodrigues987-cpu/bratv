@@ -283,7 +283,7 @@
   },
   {
    "p": "Como faço o pagamento?",
-   "r": "Pelo Pix, direto no WhatsApp com o consultor. Você recebe a nota fiscal na hora."
+   "r": "Pelo Pix, direto no WhatsApp com o consultor."
   },
   {
    "p": "E se eu não gostar?",
@@ -315,5 +315,20 @@
   "final_texto": "Veja na sua TV antes de pagar. Depois, nunca mais mensalidade.",
   "final_botao": "Testar grátis agora",
   "rodape": "BRATV · CNPJ 00.000.000/0001-00 · Endereço da empresa · Títulos e marcas exibidos são ilustrativos"
- }
+ },
+ "ga": "",
+ "links": [
+  {
+   "codigo": "insta",
+   "origem": "instagram",
+   "campanha": "bio",
+   "destino": ""
+  },
+  {
+   "codigo": "zap",
+   "origem": "whatsapp",
+   "campanha": "status",
+   "destino": ""
+  }
+ ]
 }
