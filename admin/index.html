@@ -86,6 +86,27 @@ textarea.inp{resize:vertical;min-height:70px}
 .prog{font-size:13px;color:var(--mute)}
 code{background:#0f0f15;padding:1px 5px;border-radius:4px}
 ol.steps{margin:0;padding-left:20px;display:grid;gap:6px;color:#d8d8e2}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:28px;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--mute);font-size:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.box h3{margin:0 0 10px;font-size:14px}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.tbl th{text-align:left;color:var(--mute);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:6px 8px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 8px;border-bottom:1px solid #20202a}
+.tbl td.n{text-align:right}
+.scroll{overflow-x:auto}
+.bar{height:8px;border-radius:4px;background:var(--red);display:inline-block;vertical-align:middle;margin-right:6px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.seg button{all:unset;cursor:pointer;padding:7px 14px;font-size:13px}
+.seg button.on{background:var(--panel2);color:#fff;box-shadow:inset 0 -2px 0 var(--red)}
+.chart svg{width:100%;height:auto;display:block}
+.short{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+.short code{font-size:14px;padding:6px 10px;background:#0f0f15;border:1px solid var(--line);border-radius:8px;color:#fff}
+.qr{background:#fff;padding:8px;border-radius:8px;display:inline-block;margin-top:8px}
+.cliques{color:var(--ok);font-weight:700;font-size:13px}
 @media (max-width:820px){
   .layout{grid-template-columns:1fr}
   .side{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px}
@@ -97,6 +118,7 @@ ol.steps{margin:0;padding-left:20px;display:grid;gap:6px;color:#d8d8e2}
   .row .acts{grid-column:1/-1;flex-direction:row}
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -129,18 +151,22 @@ ol.steps{margin:0;padding-left:20px;display:grid;gap:6px;color:#d8d8e2}
 <script>
 const SENHA_HASH = "1ff1ce642d6367ea535187e5d840418ba143cc24c7a0215986b1aa56bb992f9d"; // Emprego0102
 const DEF_OWNER = "kerodrigues987-cpu", DEF_REPO = "bratv";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzd172L9dOLvHoMEnFhhw5SH_cBbZStj2hYwXdhW-LKihxi_OLGJwSzMU3nwCWnVl07/exec";
+const SITE = "https://bratv.net/";
+const RESERVADOS = ["admin", "img", "app.js", "site.json", "logo.png", "index.html", "404", "404.html", "cname"];
+let STATS = null, periodo = 7;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ls = { get: k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
 
-let D = null, sha = null, dirty = false, tab = "destaques";
+let D = null, sha = null, dirty = false, tab = "analise";
 const pending = {};   // caminho -> {b64, url}
 
 /* ---------- Login ---------- */
 async function sha256(t) { const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join(""); }
 $("loginForm").addEventListener("submit", async e => {
   e.preventDefault();
-  if (await sha256($("senha").value) === SENHA_HASH) { try { sessionStorage.setItem("bratv_ok", "1"); } catch (e) {} entrar(); }
+  if (await sha256($("senha").value) === SENHA_HASH) { try { sessionStorage.setItem("bratv_ok", "1"); sessionStorage.setItem("bratv_k", $("senha").value); } catch (e) {} entrar(); }
   else { $("loginErr").textContent = "Senha incorreta."; $("senha").select(); }
 });
 let ok = false; try { ok = sessionStorage.getItem("bratv_ok") === "1"; } catch (e) {}
@@ -301,6 +327,17 @@ const TEXTOS = [
 ];
 const trilho = (key, cls, maxW, extra) => (i) => `${dropHTML(`${key}.${i}.img`, cls, maxW)}<div class="fields">${inp(`${key}.${i}.titulo`, "Título")}${inp(`${key}.${i}.genero`, extra === "cont" ? "Episódio / tipo" : "Gênero")}${inp(`${key}.${i}.selo`, "Selo (ex.: ESTREIA)")}${inp(`${key}.${i}.idade`, "Classificação")}${extra === "cont" ? inp(`${key}.${i}.progresso`, "Progresso %", "", 'type="number" min="0" max="100" data-num="1"') + inp(`${key}.${i}.qualidade`, "Qualidade (4K)") : ""}${extra === "esp" ? chk(`${key}.${i}.mostrarNome`, "Escrever o nome por cima") : ""}</div>`;
 const SEC = {
+  analise: { g: "Resultados", nome: "Análise", hint: "Visitas, leads e cliques registrados pelo site. Atualiza quando você abre esta tela.",
+    html: () => `<div class="seg">${[7, 14, 30].map(n => `<button type="button" data-per="${n}" class="${periodo === n ? "on" : ""}">${n} dias</button>`).join("")}</div> <button class="btn sm" type="button" id="anaRef">Atualizar</button><div id="anaBox" style="margin-top:6px"><p class="prog">Carregando números…</p></div>`,
+    ligar: root => {
+      root.querySelectorAll("[data-per]").forEach(b => b.onclick = () => { periodo = +b.dataset.per; root.querySelectorAll("[data-per]").forEach(x => x.classList.toggle("on", x === b)); pintarAnalise(); });
+      const go = () => { $("anaBox").innerHTML = `<p class="prog">Carregando números…</p>`; buscarStats().then(pintarAnalise).catch(e => { $("anaBox").innerHTML = `<p class="err">Não deu para carregar: ${esc(e.message)}</p>`; }); };
+      $("anaRef").onclick = go; if (STATS) pintarAnalise(); else go();
+    } },
+  links: { g: "Resultados", nome: "Links curtos", hint: "Crie um link para cada lugar onde você divulga. Quem entra pelo link chega com a origem marcada, e o cupom do lead já sai com essa origem. Os links funcionam depois de publicar.",
+    html: () => { D.links = D.links || []; return listaHTML("links", linkLinha); },
+    novo: () => ({ codigo: "link" + ((D.links || []).length + 1), origem: "instagram", campanha: "", destino: "" }),
+    ligar: root => { ligarLinks(root); if (!STATS) buscarStats().then(() => tab === "links" && abrir("links")).catch(() => {}); } },
   destaques: { g: "Página", nome: "Destaques do topo", hint: "Os banners grandes que trocam sozinhos. Imagem do PC em 16:9 (mínimo 1920px). Imagem do celular é opcional (vertical).",
     html: () => listaHTML("destaques", (i) => `<div class="imgs"><div>${dropHTML(`destaques.${i}.img`, "xl", 2400, false, "Imagem do PC (16:9)")}<div class="cap">PC</div></div><div>${dropHTML(`destaques.${i}.imgMobile`, "m", 1400, false, "Celular (opcional)")}<div class="cap">Celular ${getP(D, `destaques.${i}.imgMobile`) ? `<button class="btn sm ghost" type="button" data-rm="destaques.${i}.imgMobile">remover</button>` : ""}</div></div></div><div class="fields">${inp(`destaques.${i}.titulo`, "Título")}${inp(`destaques.${i}.tipo`, "Etiqueta (Série, Estreia…)")}<div class="f"><label>Estilo do título</label><select class="inp" data-p="destaques.${i}.estilo">${[["", "Padrão"], ["anton", "Grosso"], ["serif", "Elegante"], ["long", "Título longo"]].map(([v, l]) => `<option value="${v}" ${getP(D, `destaques.${i}.estilo`) === v ? "selected" : ""}>${l}</option>`).join("")}</select></div>${inp(`destaques.${i}.relevancia`, "Relevância (98%)")}${inp(`destaques.${i}.ano`, "Ano / horário")}${inp(`destaques.${i}.idade`, "Classificação")}${inp(`destaques.${i}.genero`, "Gênero")}${inp(`destaques.${i}.qualidade`, "Qualidade (4K)")}${inp(`destaques.${i}.posicao`, "Enquadramento (ex.: center 30%)")}${area(`destaques.${i}.sinopse`, "Sinopse")}${chk(`destaques.${i}.aoVivo`, "Mostrar selo AO VIVO")}${chk(`destaques.${i}.tituloNaArte`, "A imagem do celular já tem o título")}</div>`),
     novo: () => ({ tipo: "Série", titulo: "Novo destaque", estilo: "", relevancia: "", ano: "", idade: "", genero: "", qualidade: "4K", aoVivo: false, tituloNaArte: false, sinopse: "", img: "", imgMobile: "", posicao: "" }) },
@@ -315,11 +352,81 @@ const SEC = {
     html: () => `<div class="card"><textarea class="inp" id="tk" style="min-height:220px">${esc((D.ticker || []).join("\n"))}</textarea></div>`,
     ligar: root => { $("tk").addEventListener("input", e => { D.ticker = e.target.value.split("\n").map(s => s.trim()).filter(Boolean); marcar(); }); } },
   marca: { g: "Configuração", nome: "Logo e contato", hint: "Logo em PNG com fundo transparente. O número do WhatsApp vai com DDI e DDD, só números.",
-    html: () => `<div class="card">${dropHTML("logo", "logo", 1200, true, "Arraste o logo PNG aqui")}<div class="fields">${inp("whatsapp", "WhatsApp da empresa (só números)")}${area("mensagem", "Primeira frase da mensagem do cliente")}</div></div>` },
+    html: () => `<div class="card">${dropHTML("logo", "logo", 1200, true, "Arraste o logo PNG aqui")}<div class="fields">${inp("whatsapp", "WhatsApp da empresa (só números)")}${inp("ga", "Google Analytics (ID G-XXXXXXX, opcional)")}${area("mensagem", "Primeira frase da mensagem do cliente")}</div></div>` },
   conexao: { g: "Configuração", nome: "Conexão GitHub", hint: "O painel salva direto no GitHub. Isso fica guardado só neste navegador.",
     html: () => { const c = cfg(); return `<div class="card"><ol class="steps"><li>Abra <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> logado na conta do site.</li><li>Dê um nome (ex.: Painel BRATV) e escolha uma validade.</li><li>Em <b>Repository access</b>, escolha <b>Only select repositories</b> e marque <code>${esc(c.repo)}</code>.</li><li>Em <b>Permissions → Repository permissions → Contents</b>, escolha <b>Read and write</b>.</li><li>Clique em <b>Generate token</b>, copie e cole abaixo.</li></ol><div class="fields"><div class="f full"><label>Token do GitHub</label><input class="inp" id="cTok" type="password" value="${esc(c.token)}" placeholder="github_pat_..."></div><div class="f"><label>Usuário</label><input class="inp" id="cOwn" value="${esc(c.owner)}"></div><div class="f"><label>Repositório</label><input class="inp" id="cRep" value="${esc(c.repo)}"></div></div><div><button class="btn red" id="cSave" type="button">Salvar e testar</button> <span class="prog" id="cMsg"></span></div></div>`; },
     ligar: () => { $("cSave").onclick = async () => { ls.set("bratv_token", $("cTok").value.trim()); ls.set("bratv_owner", $("cOwn").value.trim()); ls.set("bratv_repo", $("cRep").value.trim()); $("cMsg").textContent = "Testando…"; try { const r = await fetch(api("site.json") + "?ref=main", { headers: hdr() }); if (r.ok) { $("cMsg").textContent = "Conectado ✓"; if (!dirty) { await carregar(); } } else { $("cMsg").textContent = "Falhou (" + r.status + "). Confira o token e as permissões."; } } catch (e) { $("cMsg").textContent = "Falhou: " + e.message; } }; } }
 };
+
+/* ---------- Análise ---------- */
+async function buscarStats() {
+  let k = ""; try { k = sessionStorage.getItem("bratv_k") || ""; } catch (e) {}
+  const r = await fetch(ENDPOINT + "?acao=stats&chave=" + encodeURIComponent(k) + "&t=" + Date.now());
+  const j = await r.json();
+  if (j.erro) throw new Error(j.erro === "senha" ? "Saia e entre de novo no painel." : j.erro);
+  STATS = j; return j;
+}
+function diasPeriodo(n) { const out = []; for (let i = n - 1; i >= 0; i--) { const d = new Date(Date.now() - i * 864e5); out.push(d.toLocaleDateString("sv-SE", { timeZone: "America/Sao_Paulo" })); } return out; }
+function grafico(dias, pd) {
+  const W = 720, H = 220, pl = 34, pb = 26, pt = 10, w = (W - pl - 8) / dias.length;
+  const vis = dias.map(d => (pd[d] || {}).visitas || 0), lea = dias.map(d => (pd[d] || {}).leads || 0);
+  const max = Math.max(4, ...vis, ...lea), step = Math.ceil(max / 4), top = step * 4;
+  const y = v => pt + (H - pt - pb) * (1 - v / top);
+  let g = "";
+  for (let i = 0; i <= 4; i++) { const v = step * i; g += `<line x1="${pl}" x2="${W - 8}" y1="${y(v)}" y2="${y(v)}" stroke="#2a2a36"/><text x="${pl - 6}" y="${y(v) + 4}" fill="#9a9aab" font-size="10" text-anchor="end">${v}</text>`; }
+  dias.forEach((d, i) => {
+    const x = pl + i * w;
+    g += `<rect x="${x + w * .15}" y="${y(vis[i])}" width="${w * .7}" height="${H - pb - y(vis[i])}" rx="2" fill="#3b3b4f"><title>${d}: ${vis[i]} visitas</title></rect>`;
+    if (dias.length <= 14 || i % 3 === 0) g += `<text x="${x + w / 2}" y="${H - 8}" fill="#9a9aab" font-size="10" text-anchor="middle">${d.slice(8)}/${d.slice(5, 7)}</text>`;
+  });
+  const pts = lea.map((v, i) => `${pl + i * w + w / 2},${y(v)}`).join(" ");
+  g += `<polyline points="${pts}" fill="none" stroke="#e5132b" stroke-width="2.5"/>` + lea.map((v, i) => `<circle cx="${pl + i * w + w / 2}" cy="${y(v)}" r="3" fill="#e5132b"><title>${dias[i]}: ${v} leads</title></circle>`).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Visitas e leads por dia">${g}</svg>`;
+}
+function tabela(obj, cols, fn) {
+  const rows = Object.entries(obj || {}).sort((a, b) => fn(b[1]) - fn(a[1]));
+  if (!rows.length) return `<p class="hint" style="margin:0">Ainda sem dados.</p>`;
+  const max = Math.max(...rows.map(r => fn(r[1])), 1);
+  return `<div class="scroll"><table class="tbl"><tr>${cols.map((c, i) => `<th${i ? ' style="text-align:right"' : ""}>${c}</th>`).join("")}</tr>${rows.map(([k, v]) => `<tr><td><span class="bar" style="width:${Math.round(fn(v) / max * 60)}px"></span>${esc(k)}</td>${(typeof v === "object" ? [v.visitas, v.leads, v.visitas ? Math.round(v.leads / v.visitas * 100) + "%" : "–"] : [v]).map(x => `<td class="n">${x}</td>`).join("")}</tr>`).join("")}</table></div>`;
+}
+function pintarAnalise() {
+  const box = $("anaBox"); if (!box || !STATS) return;
+  const dias = diasPeriodo(periodo), pd = STATS.porDia || {};
+  const soma = k => dias.reduce((a, d) => a + ((pd[d] || {})[k] || 0), 0);
+  const v = soma("visitas"), l = soma("leads"), w = soma("whatsapp");
+  box.innerHTML = `<div class="kpis"><div class="kpi"><b>${v}</b><span>Visitantes únicos</span></div><div class="kpi"><b>${l}</b><span>Leads (nome + aparelho)</span></div><div class="kpi"><b>${v ? (l / v * 100).toFixed(1) + "%" : "–"}</b><span>Conversão</span></div><div class="kpi"><b>${w}</b><span>Cliques no WhatsApp</span></div></div>
+  <div class="box chart" style="margin-bottom:12px"><h3>Visitas (barras) e leads (linha) por dia</h3>${grafico(dias, pd)}</div>
+  <div class="grid2"><div class="box"><h3>De onde vieram (30 dias)</h3>${tabela(STATS.origens, ["Origem", "Visitas", "Leads", "Conv."], x => x.visitas)}</div>
+  <div class="box"><h3>Aparelhos dos leads (30 dias)</h3>${tabela(STATS.aparelhos, ["Aparelho", "Leads"], x => x)}</div>
+  <div class="box"><h3>Cliques nos links curtos (30 dias)</h3>${tabela(STATS.links, ["Link", "Cliques"], x => x)}</div>
+  <div class="box"><h3>Celular x PC (30 dias)</h3>${tabela(STATS.dispositivos, ["Tela", "Visitas"], x => x)}</div></div>
+  <div class="box" style="margin-top:12px"><h3>Últimos leads</h3>${(STATS.ultimosLeads || []).length ? `<div class="scroll"><table class="tbl"><tr><th>Quando</th><th>Nome</th><th>Aparelho</th><th>Origem</th><th>Cupom</th></tr>${STATS.ultimosLeads.map(r => `<tr><td>${esc(r.data)}</td><td>${esc(r.nome)}</td><td>${esc(r.aparelho)}</td><td>${esc(r.origem)}${r.link ? " · " + esc(r.link) : ""}</td><td><code>${esc(r.codigo)}</code></td></tr>`).join("")}</table></div>` : `<p class="hint" style="margin:0">Nenhum lead ainda.</p>`}
+  ${STATS.planilha ? `<p style="margin:12px 0 0"><a href="${esc(STATS.planilha)}" target="_blank" rel="noopener">Abrir a planilha completa</a></p>` : ""}</div>`;
+}
+
+/* ---------- Links curtos ---------- */
+const ORIGENS = ["instagram", "facebook", "whatsapp", "google", "youtube", "tiktok", "email", "outro"];
+function limparCodigo(v) { return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9-]/g, "").slice(0, 30); }
+function linkLinha(i) {
+  const L = D.links[i]; const url = SITE + (L.codigo || "");
+  const cl = STATS && STATS.links ? (STATS.links[L.codigo] || 0) : null;
+  return `<div></div><div class="fields"><div class="f"><label>Código (fica no fim do link)</label><input class="inp" data-cod="${i}" value="${esc(L.codigo)}" placeholder="ex.: insta1"></div><div class="f"><label>Origem</label><select class="inp" data-p="links.${i}.origem">${ORIGENS.map(o => `<option ${L.origem === o ? "selected" : ""}>${o}</option>`).join("")}</select></div>${inp(`links.${i}.campanha`, "Campanha (ex.: bio, stories-nov)")}${inp(`links.${i}.destino`, "Destino (vazio = página inicial)")}<div class="f full"><label>Link curto ${cl !== null ? `· <span class="cliques">${cl} clique(s) em 30 dias</span>` : ""}</label><div class="short"><code data-url="${i}">${esc(url)}</code><button class="btn sm" type="button" data-copy="${i}">Copiar</button><button class="btn sm" type="button" data-qr="${i}">QR Code</button></div><div data-qrbox="${i}"></div><p class="err" data-cerr="${i}"></p></div></div>`;
+}
+function ligarLinks(root) {
+  root.querySelectorAll("[data-cod]").forEach(el => el.addEventListener("input", () => {
+    const i = +el.dataset.cod, v = limparCodigo(el.value); if (el.value !== v) el.value = v;
+    D.links[i].codigo = v; marcar();
+    root.querySelector(`[data-url="${i}"]`).textContent = SITE + v;
+    const dup = D.links.some((l, j) => j !== i && l.codigo === v);
+    root.querySelector(`[data-cerr="${i}"]`).textContent = !v ? "Escreva um código." : RESERVADOS.includes(v) ? "Esse código é reservado, escolha outro." : dup ? "Já existe um link com esse código." : "";
+  }));
+  root.querySelectorAll("[data-copy]").forEach(b => b.onclick = async () => { const t = SITE + D.links[+b.dataset.copy].codigo; try { await navigator.clipboard.writeText(t); toast("Link copiado: " + t, "ok"); } catch (e) { toast(t); } });
+  root.querySelectorAll("[data-qr]").forEach(b => b.onclick = () => {
+    const i = +b.dataset.qr, box = root.querySelector(`[data-qrbox="${i}"]`);
+    if (box.innerHTML) { box.innerHTML = ""; return; }
+    box.innerHTML = `<div class="qr"></div>`; try { new QRCode(box.firstChild, { text: SITE + D.links[i].codigo, width: 160, height: 160 }); } catch (e) { box.textContent = "Não deu para gerar o QR."; }
+  });
+}
 
 function menu() {
   let g = "", h = "";
