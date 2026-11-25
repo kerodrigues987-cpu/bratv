@@ -239,6 +239,44 @@ function setupLead() {
   }));
 }
 
+
+/* ---------- Contador ao vivo ---------- */
+function setupContador() {
+  let demo = false;
+  try { if (new URLSearchParams(location.search).get("demo") === "1") sessionStorage.setItem("bratv_demo", "1"); demo = sessionStorage.getItem("bratv_demo") === "1"; } catch (e) {}
+  if (D.demo) demo = true;
+  const el = $("proof"), tx = $("proofTxt");
+  let msgs = [], k = 0;
+  const trocar = () => {
+    if (!msgs.length) { el.classList.add("off"); return; }
+    el.classList.add("off");
+    setTimeout(() => { tx.innerHTML = msgs[k % msgs.length](); k++; el.classList.remove("off"); }, 450);
+  };
+  if (demo) {
+    const n = { hora: 760 + Math.floor(Math.random() * 60), hoje: 3200 + Math.floor(Math.random() * 400), agora: 1100 + Math.floor(Math.random() * 300) };
+    const tick = () => { n.hora += Math.floor(Math.random() * 3); n.hoje += Math.floor(Math.random() * 4); n.agora += Math.floor(Math.random() * 9) - 3; setTimeout(tick, 2500 + Math.random() * 3500); };
+    tick();
+    msgs = [
+      () => `<b>${fmt(n.hora)} pessoas</b> pediram teste grátis na última hora`,
+      () => `<b>${fmt(n.agora)} pessoas</b> vendo esta página agora`,
+      () => `<b>${fmt(n.hoje)} pessoas</b> garantiram o acesso hoje`
+    ];
+    setTimeout(trocar, 3500); setInterval(trocar, 7000);
+    return;
+  }
+  const buscar = async () => {
+    try {
+      const r = await fetch(CONFIG.jogos + "?acao=contador&t=" + Date.now()); const c = await r.json();
+      const m = [];
+      if (c.leadsHora > 0) m.push(() => `<b>${fmt(c.leadsHora)} ${c.leadsHora > 1 ? "pessoas pediram" : "pessoa pediu"}</b> teste grátis na última hora`);
+      if (c.leadsHoje > 0) m.push(() => `<b>${fmt(c.leadsHoje)} ${c.leadsHoje > 1 ? "pessoas pediram" : "pessoa pediu"}</b> teste grátis hoje`);
+      if (c.visitas24h > 1) m.push(() => `<b>${fmt(c.visitas24h)} pessoas</b> visitaram nas últimas 24 h`);
+      msgs = m;
+    } catch (e) { msgs = []; }
+  };
+  buscar().then(() => setTimeout(trocar, 3500));
+  setInterval(trocar, 7000); setInterval(buscar, 60000);
+}
 /* ---------- Início ---------- */
 async function boot() {
   try {
@@ -247,8 +285,10 @@ async function boot() {
   } catch (e) { D = { destaques: [], textos: {} }; }
   ligarGA(D.ga);
   track("visita");
+  if (D.demo) { const mt = document.createElement("meta"); mt.name = "robots"; mt.content = "noindex,nofollow"; document.head.appendChild(mt); }
   render();
   setupBillboard();
+  setupContador();
   setupCounters();
   setupLead();
   addEventListener("scroll", () => $("nav").classList.toggle("solid", scrollY > 40), { passive: true });
