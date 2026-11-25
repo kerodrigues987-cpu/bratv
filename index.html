@@ -198,32 +198,6 @@ input[type=range]{width:100%;accent-color:var(--red);height:6px}
 .r .vs{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:15px;color:#f0d6da}
 .r .vs b{color:#fff}
 
-/* ===== DEVICES ===== */
-.dv-sec{padding-block:56px}
-.dv{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
-.tabs{display:grid;gap:10px}
-.tab{display:flex;gap:14px;align-items:center;text-align:left;padding:16px 18px;border-radius:14px;background:var(--bg2);border:1px solid var(--line);cursor:pointer;transition:all .2s}
-.tab svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:1.6;flex:0 0 auto}
-.tab b{display:block;font-size:17px}
-.tab span{color:var(--mute);font-size:14px}
-.tab.on{border-color:var(--red);background:linear-gradient(90deg,rgba(229,19,43,.18),var(--bg2))}
-.stage{position:relative;aspect-ratio:16/11;display:grid;place-items:center;min-width:0}
-.frame{position:relative;background:#000;border:10px solid #1c1c22;box-shadow:0 0 0 1px #34343c,0 40px 90px -30px rgba(229,19,43,.45);overflow:hidden;transition:all .5s cubic-bezier(.6,.1,.2,1)}
-.frame.tv{width:100%;aspect-ratio:16/9;border-radius:14px;border-bottom-width:16px}
-.frame.cel{width:36%;aspect-ratio:9/19;border-radius:34px;border-width:9px}
-.frame.box{width:92%;aspect-ratio:16/9;border-radius:14px}
-.frame.pc{width:86%;aspect-ratio:16/10;border-radius:12px 12px 4px 4px;border-bottom-width:22px}
-.ui{position:absolute;inset:0;background:linear-gradient(180deg,#140318,#050507 70%);padding:6%;display:flex;flex-direction:column;gap:6%}
-.ui .lg{height:clamp(10px,1.8vw,20px);background:url(logo.png) left center/contain no-repeat}
-.ui .hb{flex:1.2;border-radius:6px;background:radial-gradient(60% 60% at 70% 40%,rgba(255,60,120,.6),transparent 70%),linear-gradient(135deg,#2b0730,#0b0212);position:relative}
-.ui .hb::after{content:"NOITE NEON";position:absolute;left:6%;bottom:12%;font-family:var(--disp);font-size:clamp(16px,3vw,34px)}
-.ui .rw{flex:.6;display:flex;gap:4%}
-.ui .rw i{flex:1;border-radius:4px}
-.frame.cel .ui .rw i:nth-child(n+3){display:none}
-.remote{position:absolute;right:2%;bottom:0;width:34px;height:110px;border-radius:16px;background:linear-gradient(#26262e,#121217);box-shadow:0 10px 20px rgba(0,0,0,.6);opacity:0;transition:opacity .4s}
-.remote::before{content:"";position:absolute;top:14px;left:9px;width:16px;height:16px;border-radius:50%;border:2px solid #555}
-.stage.box .remote{opacity:1}
-
 /* ===== REASONS / FAQ ===== */
 .rs{padding-block:56px}
 .rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
@@ -279,7 +253,7 @@ footer a{color:#7d7d8a}
   .shade{background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 16%,rgba(0,0,0,0) 34%,rgba(5,5,7,.85) 52%,var(--bg) 72%)}
   .bill-in{padding-top:330px!important}
   #billInfo.arttitle .ttl{display:none}
-  .art.m-terra{inset:0!important;animation:none!important;top:40px!important;background-image:url(img/b-terradamafia-m.jpg)!important;background-position:center top!important;background-size:100% auto!important;background-repeat:no-repeat;background-color:#000}
+  .art.has-m{inset:0!important;animation:none!important;top:40px!important;background-image:var(--m)!important;background-position:center top!important;background-size:100% auto!important;background-repeat:no-repeat;background-color:#000}
   .ttl,.ttl.long,.ttl.serif{font-size:clamp(38px,11vw,52px);line-height:1}
   .ttl.anton{font-size:clamp(38px,11vw,52px);line-height:1.1}
   .syn{font-size:15px}
@@ -341,11 +315,11 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
 <body>
 
 
-<div class="intro" aria-hidden="true"><div class="intro-in"><img src="logo.png" alt=""><i></i></div></div>
+<div class="intro" aria-hidden="true"><div class="intro-in"><img src="logo.png" data-logo alt=""><i></i></div></div>
 <div class="fx-vig" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="wrap">
-    <div class="logo"><img src="logo.png" alt="BRATV"><small>VITALÍCIO</small></div>
+    <div class="logo"><img src="logo.png" data-logo alt="BRATV"><small>VITALÍCIO</small></div>
     <ul><li><a href="#aovivo">Ao vivo</a></li><li><a href="#filmes">Filmes e séries</a></li><li><a href="#esportes">Esportes</a></li><li><a href="#economia">Economia</a></li><li><a href="#faq">Dúvidas</a></li></ul>
     <a class="cta" href="#lead">Teste grátis</a>
   </div>
@@ -353,20 +327,12 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
 
 <!-- BILLBOARD -->
 <section class="bill" aria-label="Destaques">
-  <div class="scene on" data-i="0"><div class="art img m-terra" style="background-image:url(img/b-terradamafia.jpg);background-position:center 35%"></div></div>
-  <div class="scene" data-i="1"><div class="art img" style="background-image:url(img/b-jogosvorazes.jpg)"></div></div>
-  <div class="scene" data-i="2"><div class="art img" style="background-image:url(img/b-estadio.jpg)"></div></div>
-  <div class="scene" data-i="3"><div class="art img" style="background-image:url(img/b-empress.jpg)"></div></div>
+  <div id="scenes" style="position:absolute;inset:0"></div>
   <div class="grain"></div><div class="shade"></div>
 
   <div class="wrap bill-in">
     <div>
-      <div id="billInfo">
-        <div class="meta-top"><img src="logo.png" alt="BRATV" style="height:18px;width:auto"> Série original</div>
-        <h1 class="ttl">Noite Neon</h1>
-        <div class="tags"><span class="m">98% relevante</span><span>2026</span><span class="b">16</span><span>2 temporadas</span><span class="b">4K</span></div>
-        <p class="syn">Uma hacker de São Paulo descobre que a cidade inteira é controlada por um único algoritmo. E ele sabe o nome dela.</p>
-      </div>
+      <div id="billInfo"></div>
       <div class="dots" id="dots"></div>
     </div>
 
@@ -375,8 +341,8 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
 
       <form id="step1" novalidate>
         <div class="kick"><span class="free">TESTE GRÁTIS</span> Liberado hoje</div>
-        <h2 id="capH">Teste grátis. <em>Depois, nunca mais mensalidade.</em></h2>
-        <p class="sub">Veja canais ao vivo, filmes, futebol e PPV no seu aparelho antes de pagar qualquer coisa.</p>
+        <h2 id="capH"><span data-txt="cap_titulo">Teste grátis.</span> <em data-txt="cap_titulo_destaque">Depois, nunca mais mensalidade.</em></h2>
+        <p class="sub" data-txt="cap_sub">Veja canais ao vivo, filmes, futebol e PPV no seu aparelho antes de pagar qualquer coisa.</p>
         <div class="field">
           <input type="text" id="nome" placeholder=" " autocomplete="given-name" maxlength="40">
           <label for="nome">Seu nome</label>
@@ -422,27 +388,22 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
 
 <main>
   <div class="wrap">
-    <div class="stats">
-      <div><b data-n="5000">0<i>+</i></b><span>canais ao vivo</span></div>
-      <div><b data-n="50000">0<i>+</i></b><span>filmes e séries</span></div>
-      <div><b>FHD <i>e</i> 4K</b><span>qualidade de imagem</span></div>
-      <div><b>R$ <i>0</i></b><span>de mensalidade, para sempre</span></div>
-    </div>
-    <div class="trial"><div><h2>Teste grátis antes de pagar</h2><p>Liberamos um acesso de teste no seu aparelho pelo WhatsApp.</p></div><a href="#lead">Quero meu teste grátis</a></div>
+    <div class="stats" id="stats"></div>
+    <div class="trial"><div><h2 data-txt="trial_titulo">Teste grátis antes de pagar</h2><p data-txt="trial_texto">Liberamos um acesso de teste no seu aparelho pelo WhatsApp.</p></div><a href="#lead" data-txt="trial_botao">Quero meu teste grátis</a></div>
   </div>
 
   <section class="rowsec"><div class="wrap">
-    <div class="sec-t"><h2>Top 10 da semana</h2><span>Atualizado toda segunda</span></div>
+    <div class="sec-t"><h2 data-txt="sec_top10">Top 10 da semana</h2><span data-txt="sec_top10_sub">Atualizado toda segunda</span></div>
     <div class="rail top10" id="top10"></div>
   </div></section>
 
   <section class="rowsec" id="filmes"><div class="wrap">
-    <div class="sec-t"><h2>Continue assistindo</h2></div>
+    <div class="sec-t"><h2 data-txt="sec_continuar">Continue assistindo</h2></div>
     <div class="rail" id="cont"></div>
   </div></section>
 
   <section class="rowsec" id="esportes"><div class="wrap">
-    <div class="sec-t"><h2>Futebol e pay-per-view</h2><span>Ao vivo, sem pagar à parte</span></div>
+    <div class="sec-t"><h2 data-txt="sec_esportes">Futebol e pay-per-view</h2><span data-txt="sec_esportes_sub">Ao vivo, sem pagar à parte</span></div>
     <div class="rail" id="esp"></div>
   </div></section>
 
@@ -453,7 +414,7 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
   </div></section>
 
   <section class="rowsec"><div class="wrap">
-    <div class="sec-t"><h2>Para a criançada</h2></div>
+    <div class="sec-t"><h2 data-txt="sec_infantil">Para a criançada</h2></div>
     <div class="rail" id="kids"></div>
   </div></section>
 
@@ -475,50 +436,28 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
     </div>
   </div></section>
 
-  <!-- DEVICES -->
-  <section class="dv-sec"><div class="wrap">
-    <div class="sec-t"><h2>Um acesso, todas as telas</h2></div>
-    <div class="dv">
-      <div class="tabs" id="tabs">
-        <button class="tab on" data-f="tv"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><div><b>Smart TV</b><span>Samsung, LG, TCL, Philco e mais</span></div></button>
-        <button class="tab" data-f="cel"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg><div><b>Celular</b><span>Android e iPhone</span></div></button>
-        <button class="tab" data-f="box"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="7" rx="2"/><path d="M7 12.5h.01M17 12.5h2"/></svg><div><b>TV Box e Fire Stick</b><span>Transforma qualquer TV em smart</span></div></button>
-        <button class="tab" data-f="pc"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M1 20h22"/></svg><div><b>Computador</b><span>Direto no navegador</span></div></button>
-      </div>
-      <div class="stage tv" id="stage">
-        <div class="frame tv" id="frame"><div class="ui"><div class="lg"></div><div class="hb"></div><div class="rw"><i style="background:linear-gradient(135deg,#7a1010,#1a0505)"></i><i style="background:linear-gradient(135deg,#0e4c6e,#04121c)"></i><i style="background:linear-gradient(135deg,#14532d,#03120a)"></i><i style="background:linear-gradient(135deg,#6d28d9,#0e0520)"></i></div></div></div>
-        <div class="remote"></div>
-      </div>
-    </div>
-  </div></section>
-
   <!-- REASONS -->
   <section class="rs"><div class="wrap">
     <div class="sec-t"><h2>Por que a BRATV</h2></div>
     <div class="rgrid">
-      <div class="rc"><h3>Sem mensalidade</h3><p>Um pagamento único. Nunca mais boleto de TV.</p><svg viewBox="0 0 48 48"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4d6d"/><stop offset="1" stop-color="#9e0a1b"/></linearGradient></defs><circle cx="24" cy="24" r="20" fill="url(#g)"/><path d="M15 25l6 6 12-14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="rc"><h3>Futebol e PPV inclusos</h3><p>Campeonatos, lutas e eventos sem cobrança extra.</p><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="url(#g)"/><circle cx="24" cy="24" r="9" fill="none" stroke="#fff" stroke-width="3"/><path d="M24 4v11M24 33v11M4 24h11M33 24h11" stroke="#fff" stroke-width="3"/></svg></div>
-      <div class="rc"><h3>Legal e estável</h3><p>Empresa com CNPJ e nota fiscal. Não cai no meio do jogo.</p><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="url(#g)"/><path d="M24 12l10 4v8c0 7-4 11-10 13-6-2-10-6-10-13v-8z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg></div>
-      <div class="rc"><h3>Suporte no WhatsApp</h3><p>Gente de verdade para instalar com você.</p><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="url(#g)"/><path d="M14 30V18a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-9l-7 5z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg></div>
+      <div class="rc"><h3 data-txt="motivo1_t">Sem mensalidade</h3><p data-txt="motivo1_d">Um pagamento único. Nunca mais boleto de TV.</p><svg viewBox="0 0 48 48"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4d6d"/><stop offset="1" stop-color="#9e0a1b"/></linearGradient></defs><circle cx="24" cy="24" r="20" fill="url(#g)"/><path d="M15 25l6 6 12-14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="rc"><h3 data-txt="motivo2_t">Futebol e PPV inclusos</h3><p data-txt="motivo2_d">Campeonatos, lutas e eventos sem cobrança extra.</p><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="url(#g)"/><circle cx="24" cy="24" r="9" fill="none" stroke="#fff" stroke-width="3"/><path d="M24 4v11M24 33v11M4 24h11M33 24h11" stroke="#fff" stroke-width="3"/></svg></div>
+      <div class="rc"><h3 data-txt="motivo3_t">Legal e estável</h3><p data-txt="motivo3_d">Empresa com CNPJ e nota fiscal. Não cai no meio do jogo.</p><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="url(#g)"/><path d="M24 12l10 4v8c0 7-4 11-10 13-6-2-10-6-10-13v-8z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg></div>
+      <div class="rc"><h3 data-txt="motivo4_t">Suporte no WhatsApp</h3><p data-txt="motivo4_d">Gente de verdade para instalar com você.</p><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="url(#g)"/><path d="M14 30V18a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-9l-7 5z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg></div>
     </div>
   </div></section>
 
   <section class="wrap faq" id="faq">
     <h2>Perguntas frequentes</h2>
-    <details open><summary>Como funciona o teste grátis?</summary><p>Você chama no WhatsApp, o consultor libera um acesso de teste no seu aparelho e você assiste antes de pagar. Gostou, fecha o vitalício. Não gostou, não paga nada.</p></details>
-    <details><summary>É vitalício mesmo?</summary><p>Sim. Você paga uma vez e não existe mensalidade.</p></details>
-    <details><summary>Qual a diferença para uma lista pirata?</summary><p>A BRATV é uma empresa legalizada, com conteúdo licenciado, nota fiscal e suporte. Não cai, não trava em dia de jogo e não coloca seus dados em risco.</p></details>
-    <details><summary>Onde posso assistir?</summary><p>Smart TV, celular, tablet, TV Box, Fire Stick, Chromecast, Apple TV e computador. O consultor confirma o modelo do seu aparelho antes do pagamento.</p></details>
-    <details><summary>Como faço o pagamento?</summary><p>Pelo Pix, direto no WhatsApp com o consultor. Você recebe a nota fiscal na hora.</p></details>
-    <details><summary>E se eu não gostar?</summary><p>Você tem 7 dias para pedir o dinheiro de volta, conforme o Código de Defesa do Consumidor.</p></details>
+    <div id="faqList"></div>
   </section>
 
   <section class="final">
     <div class="wrap">
-      <img src="logo.png" alt="BRATV" style="height:56px;width:auto;margin:0 auto 22px;display:block">
-      <h2 id="finH">Teste grátis hoje</h2>
-      <p>Veja na sua TV antes de pagar. Depois, nunca mais mensalidade.</p>
-      <a href="#lead">Testar grátis agora</a>
+      <img src="logo.png" data-logo alt="BRATV" style="height:56px;width:auto;margin:0 auto 22px;display:block">
+      <h2 id="finH" data-txt="final_titulo">Teste grátis hoje</h2>
+      <p data-txt="final_texto">Veja na sua TV antes de pagar. Depois, nunca mais mensalidade.</p>
+      <a href="#lead" data-txt="final_botao">Testar grátis agora</a>
     </div>
   </section>
 </main>
@@ -527,7 +466,7 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
   <div class="wrap">
     <div>Dúvidas? Fale com a gente no WhatsApp.</div>
     <div class="cols"><a href="#faq">Perguntas frequentes</a><a href="#">Termos de uso</a><a href="#">Privacidade</a><a href="#">Política de reembolso</a></div>
-    <div>BRATV · CNPJ 00.000.000/0001-00 · Endereço da empresa · Títulos e marcas exibidos são ilustrativos</div>
+    <div data-txt="rodape">BRATV · CNPJ 00.000.000/0001-00 · Endereço da empresa · Títulos e marcas exibidos são ilustrativos</div>
   </div>
 </footer>
 
@@ -536,254 +475,7 @@ img.lens{text-shadow:none;filter:drop-shadow(calc(var(--cx,0px) * -1) calc(var(-
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.1z"/></symbol></svg>
 
-<script>
-// CONFIGURAÇÃO — troque antes de publicar
-const CONFIG = {
-  whatsapp: "17868233155",     // número da empresa com DDI e DDD, só dígitos
-  planilha: "",                // URL do Apps Script (Google Planilhas) que recebe os leads
-  jogos: "https://script.google.com/macros/s/AKfycbzd172L9dOLvHoMEnFhhw5SH_cBbZStj2hYwXdhW-LKihxi_OLGJwSzMU3nwCWnVl07/exec"  // URL do App da Web "jogos-apps-script" (jogos reais do dia)
-};
-const $ = id => document.getElementById(id);
-
-/* ---------- Fila: uma animação de texto por vez ---------- */
-const Q=[]; let qBusy=false;
-function enqueue(el,base){ if(!el) return; Q.push([el,base]); runQ(); }
-function runQ(){ if(qBusy||!Q.length) return; qBusy=true; const [el,b]=Q.shift(); const n=formText(el,b)||0; setTimeout(()=>{ qBusy=false; runQ(); },(b+n*0.022+0.45)*1000); }
-
-/* ---------- Aberração de lente ---------- */
-const LENS_SEL="h1,h2,h3,.syn,.tags,.meta-top,.sec-t span,.stats b,.stats span,.card .nm,.rc p,.faq summary,.sub,.capture .kick,.ch,.tab b,.big,.final p,.logo img,.final img,.meta-top img";
-let lensQ=false;
-function lens(){
-  lensQ=false;
-  const W=innerWidth,H=innerHeight,cx=W/2,cy=H/2,K=W<700?0.7:1.6;
-  document.querySelectorAll(LENS_SEL).forEach(el=>{
-    el.classList.add("lens");
-    const r=el.getBoundingClientRect(); if(r.bottom<0||r.top>H) return;
-    const dx=((r.left+r.width/2)-cx)/cx, dy=((r.top+r.height/2)-cy)/cy;
-    el.style.setProperty("--cx",(dx*Math.abs(dx)*K).toFixed(2)+"px");
-    el.style.setProperty("--cy",(dy*Math.abs(dy)*K*.6).toFixed(2)+"px");
-  });
-}
-let lensT; const lensReq=()=>{ clearTimeout(lensT); lensT=setTimeout(lens,140); };
-addEventListener("scroll",lensReq,{passive:true}); addEventListener("resize",lensReq);
-document.addEventListener("scroll",lensReq,{passive:true,capture:true});
-setTimeout(lens,50);
-
-/* ---------- Palavras se formando ---------- */
-function formText(el, base){
-  if(!el) return; let k=0;
-  const walk = node => [...node.childNodes].forEach(n=>{
-    if(n.nodeType===3){
-      const frag=document.createDocumentFragment();
-      n.textContent.split(/(\s+)/).forEach(w=>{
-        if(!w) return;
-        if(/^\s+$/.test(w)){ frag.appendChild(document.createTextNode(w)); return; }
-        const wd=document.createElement("span"); wd.className="wd";
-        [...w].forEach(c=>{ const s=document.createElement("span"); s.className="lt"; s.textContent=c; s.style.setProperty("--d",(base+k*0.022+Math.random()*0.05).toFixed(3)+"s"); k++; wd.appendChild(s); });
-        frag.appendChild(wd);
-      });
-      n.replaceWith(frag);
-    } else if(n.nodeType===1) walk(n);
-  });
-  walk(el);
-  return k;
-}
-function scramble(el){
-  const fin=el.textContent, L="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*/";
-  let f=0; const tick=()=>{ el.textContent=[...fin].map((c,i)=>c===" "?" ":(i<f/2?c:L[Math.random()*L.length|0])).join(""); f++; if(f/2<fin.length) requestAnimationFrame(tick); else el.textContent=fin; }; tick();
-}
-const so=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ so.unobserve(e.target); scramble(e.target);} }),{threshold:.6});
-if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
-  enqueue($("capH"),0);
-  const fo=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ fo.unobserve(e.target); enqueue(e.target,0.05);} }),{threshold:.4,rootMargin:"0px 0px -8% 0px"});
-  document.querySelectorAll(".sec-t h2,.faq h2,.calc h2,.trial h2,.rc h3,.final h2,.stats span,.calc .r .lb,.tab b").forEach(h=>fo.observe(h));
-}
-
-/* ---------- Billboard ---------- */
-const FEAT = [
-  {kind:"Série · Temporada 2", t:"Terra da Máfia", cls:"anton", artTitle:true, tags:'<span class="m">99% relevante</span><span>2026</span><span class="b">18</span><span>Crime</span><span class="b">4K</span>', s:"Em Londres, a família Harrigan luta para manter seu império do crime. Quando tudo dá errado, quem resolve é Harry Da Souza."},
-  {kind:"Estreia", t:"Jogos Vorazes: Amanhecer na Colheita", cls:"long", tags:'<span class="m">98% relevante</span><span>2026</span><span class="b">14</span><span>Ação</span><span class="b">4K</span>', s:"A 50ª edição dos Jogos Vorazes tem o dobro de tributos. Um deles é o jovem Haymitch Abernathy."},
-  {kind:"Ao vivo hoje", t:"Clássico de Domingo", cls:"anton", tags:'<span class="live">AO VIVO</span><span>16h00</span><span class="b">HD</span><span>Campeonato Nacional</span>', s:"O jogo mais esperado da rodada, ao vivo e sem pagar pacote extra. Narração, pós-jogo e melhores momentos."},
-  {kind:"Série", t:"The Empress", cls:"serif", tags:'<span class="m">95% relevante</span><span>Temporada 3</span><span class="b">14</span><span>Drama histórico</span><span class="b">4K</span>', s:"Elisabeth enfrenta as intrigas da corte de Viena e o peso de ser imperatriz."}
-];
-let cur = 0, timer, first = true, billOff = false;
-const dots = $("dots");
-dots.innerHTML = FEAT.map((_,i)=>`<button aria-label="Destaque ${i+1}"><i></i></button>`).join("");
-function show(i){
-  cur = i;
-  document.querySelectorAll(".scene").forEach((s,k)=>s.classList.toggle("on",k===i));
-  const f = FEAT[i];
-  $("billInfo").innerHTML = `<div class="meta-top"><img src="logo.png" alt="BRATV" style="height:18px;width:auto"> ${f.kind}</div><h1 class="ttl ${f.cls}">${f.t}</h1><div class="tags">${f.tags}</div><p class="syn">${f.s}</p>`;
-  enqueue($("billInfo").querySelector(".ttl"), first ? 2.3 : 0.05);
-  const bi=$("billInfo"); bi.classList.toggle("arttitle", !!f.artTitle); bi.classList.remove("glitch"); void bi.offsetWidth; if(!first) bi.classList.add("glitch"); first=false;
-  [...dots.children].forEach((d,k)=>{d.classList.remove("on","done"); if(k<i)d.classList.add("done");});
-  void dots.offsetWidth; dots.children[i].classList.add("on");
-  clearTimeout(timer); if(!billOff) timer = setTimeout(()=>show((cur+1)%FEAT.length),7000);
-}
-[...dots.children].forEach((d,i)=>d.addEventListener("click",()=>show(i)));
-show(0);
-new IntersectionObserver(([e])=>{ billOff=!e.isIntersecting; document.querySelector(".bill").classList.toggle("off",billOff); clearTimeout(timer); if(!billOff) timer=setTimeout(()=>show((cur+1)%FEAT.length),7000); }).observe(document.querySelector(".bill"));
-new IntersectionObserver(([e])=>document.querySelector(".ticker").classList.toggle("off",!e.isIntersecting)).observe(document.querySelector(".ticker"));
-
-/* ---------- Nav sólida ao rolar ---------- */
-addEventListener("scroll",()=>$("nav").classList.toggle("solid",scrollY>40),{passive:true});
-
-/* ---------- Ticker ---------- */
-const TK = ["<b>Capital 2 x 1 Litoral</b> <em>72'</em>","<b>Noite de Campeões</b> luta principal <em>22h</em>","<b>Serra 0 x 0 Planalto</b> <em>15'</em>","<b>Jornal 24h</b> edição da noite","<b>Final Continental</b> <em>amanhã 21h30</em>","<b>Cinema Total</b> Poeira Vermelha <em>agora</em>","<b>Grande Prêmio</b> classificação <em>sáb 14h</em>"];
-$("track").innerHTML = [...TK,...TK].map(t=>`<span>${t}</span>`).join("");
-
-/* ---------- Contadores ---------- */
-const fmt = n => n.toLocaleString("pt-BR");
-const io = new IntersectionObserver(es=>es.forEach(e=>{
-  if(!e.isIntersecting) return; io.unobserve(e.target);
-  const el=e.target, n=+el.dataset.n, suf=el.innerHTML.replace(/^[^<]*/,""); const t0=performance.now();
-  const step=t=>{const p=Math.min(1,(t-t0)/1400); el.innerHTML=fmt(Math.round(n*(1-Math.pow(1-p,3))))+suf; if(p<1)requestAnimationFrame(step);};
-  requestAnimationFrame(step);
-}),{threshold:.4});
-document.querySelectorAll("[data-n]").forEach(el=>{ el.innerHTML = fmt(+el.dataset.n) + el.innerHTML.replace(/^[^<]*/,""); io.observe(el); });
-
-/* ---------- Cards ---------- */
-const cover = (c1,c2,c3) => `radial-gradient(70% 70% at 75% 30%,${c3}88,transparent 60%),linear-gradient(150deg,${c1},${c2} 80%)`;
-const card = (o) => `<div class="card" tabindex="0"><div class="cv" style="background:${o.img?`#111 url(img/${o.img}.jpg) center/cover`:cover(o.c1,o.c2,o.c3||o.c1)}"></div>${o.badge?`<span class="badge">${o.badge}</span>`:""}${o.q?`<span class="q">${o.q}</span>`:""}${(!o.img||o.nm)?`<div class="nm" style="font-family:'${o.f||"Bebas Neue"}',sans-serif;font-size:${o.fs||28}px">${o.t}</div>`:""}${o.pr?`<div class="pr" style="width:${o.pr}%"></div>`:""}<div class="info"><span class="m">${o.m||"96%"} relevante</span><span class="b">${o.age||"14"}</span><span>${o.g}</span></div></div>`;
-
-const TOP = [
-  {t:"The Empress",g:"Série",img:"t-empress",badge:"NOVA TEMPORADA"},
-  {t:"Lupin",g:"Série",img:"t-lupin",badge:"PARTE 4"},
-  {t:"The Body",g:"Série",img:"t-thebody",age:"16"},
-  {t:"Black Doves",g:"Série",img:"t-blackdoves"},
-  {t:"The Mentalist",g:"Série",img:"t-mentalist"},
-  {t:"Suzane Vai Falar",g:"Documentário",img:"t-suzane",age:"16"},
-  {t:"One Piece Film Red",g:"Anime",img:"t-onepiece",age:"12"},
-  {t:"Os Farofeiros 3",g:"Comédia",img:"t-farofeiros",age:"12"},
-  {t:"Jogos Vorazes",g:"Ação",img:"t-jogosvorazes",badge:"ESTREIA"},
-  {t:"Godzilla Minus Zero",g:"Ação",img:"t-godzilla"}
-];
-$("top10").innerHTML = TOP.map((o,i)=>`<div class="it"><span class="n">${i+1}</span>${card(o)}</div>`).join("");
-$("cont").innerHTML = [
-  {t:"The Empress",g:"T3 E2",img:"c-empress",pr:62,q:"4K"},
-  {t:"Black Doves",g:"T2 E1",img:"c-blackdoves",pr:20},
-  {t:"The Body",g:"T1 E5",img:"c-thebody",pr:85,age:"16"},
-  {t:"JoJo's Bizarre Adventure",g:"Anime",img:"c-jojo",pr:40},
-  {t:"The Gift of Deceit",g:"T1 E3",img:"c-giftofdeceit",pr:12}
-].map(card).join("");
-$("esp").innerHTML = [
-  {t:"Capital × Litoral",g:"Futebol",img:"e-estadio1",nm:1,badge:"AO VIVO",age:"L",m:"99%"},
-  {t:"Noite de Campeões",g:"Luta · PPV",img:"e-mma",nm:1,badge:"HOJE 22H",age:"16"},
-  {t:"Final Continental",g:"Futebol",img:"e-estadio2",nm:1,badge:"AMANHÃ",age:"L"},
-  {t:"Grande Prêmio",g:"Automobilismo",img:"e-formula",nm:1,age:"L"},
-  {t:"Serra × Planalto",g:"Futebol",img:"e-estadio3",nm:1,badge:"AO VIVO",age:"L"}
-].map(card).join("");
-$("kids").innerHTML = [
-  {t:"Charlie, o Super Cão",g:"Animação",img:"k-charlie",age:"L"},
-  {t:"Moana 2",g:"Animação",img:"k-moana2",age:"L"},
-  {t:"Toy Story 5",g:"Animação",img:"k-toystory5",age:"L"},
-  {t:"Detetives de 4 Patas",g:"Animação",img:"k-dogsopera",age:"L"},
-  {t:"O Gatola da Cartola",g:"Animação",img:"k-gatola",age:"L"}
-].map(card).join("");
-
-/* ---------- Jogos reais do dia ---------- */
-const FOTOS = ["e-estadio1","e-estadio2","e-estadio3"];
-function rotuloJogo(j){
-  if (j.status==="IN_PLAY"||j.status==="PAUSED") return {badge:"AO VIVO", placar:`${j.golsCasa??0} x ${j.golsFora??0}`, tk:"<em>ao vivo</em>"};
-  if (j.status==="FINISHED") return {badge:"ENCERRADO", placar:`${j.golsCasa} x ${j.golsFora}`, tk:"<em>fim</em>"};
-  return {badge:"HOJE "+j.hora.replace(":00","H").replace(":","H"), placar:"x", tk:`<em>${j.hora}</em>`};
-}
-async function carregarJogos(){
-  if (!CONFIG.jogos) return;
-  try{
-    const r = await fetch(CONFIG.jogos); const d = await r.json();
-    const js = (d.jogos||[]).slice(0,12); if (!js.length) return;
-    const ord = {IN_PLAY:0,PAUSED:0,TIMED:1,SCHEDULED:1,FINISHED:2};
-    js.sort((a,b)=>(ord[a.status]??1)-(ord[b.status]??1) || a.hora.localeCompare(b.hora));
-    const tk = js.map(j=>{const l=rotuloJogo(j); return `<b>${j.casa} ${l.placar} ${j.fora}</b> ${j.competicao} ${l.tk}`;});
-    $("track").innerHTML = [...tk,...tk].map(t=>`<span>${t}</span>`).join("");
-    const cards = js.slice(0,6).map((j,i)=>{const l=rotuloJogo(j); return {t:`${j.casa} × ${j.fora}`,g:j.competicao,img:FOTOS[i%3],nm:1,badge:l.badge,age:"L",fs:20};});
-    cards.push({t:"Noite de Campeões",g:"Luta · PPV",img:"e-mma",nm:1,badge:"PPV",age:"16"},{t:"Grande Prêmio",g:"Automobilismo",img:"e-formula",nm:1,age:"L"});
-    $("esp").innerHTML = cards.map(card).join("");
-  }catch(e){ /* sem conexão: mantém os jogos de exemplo */ }
-}
-carregarJogos(); setInterval(carregarJogos,120000);
-
-/* ---------- Guia de programação ---------- */
-function buildEPG(){
-  const now = new Date();
-  const start = new Date(now); start.setMinutes(now.getMinutes()<30?0:30,0,0); start.setMinutes(start.getMinutes()-30);
-  const SPAN = 180; // minutos
-  const pct = m => (m/SPAN*100);
-  const hh = d => d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
-  let head = `<div class="epg-head"><div class="ch" style="font-weight:600;color:var(--mute)">Canal</div><div class="times">`;
-  for(let m=0;m<SPAN;m+=30){ head += `<span style="left:${pct(m)}%">${hh(new Date(start.getTime()+m*60000))}</span>`; }
-  head += `</div></div>`;
-  const CH = [
-    ["Esporte 1","E1","#166534",[["Pré-jogo",40],["Capital × Litoral",110],["Pós-jogo",60]]],
-    ["Cinema Total","CT","#7c2d12",[["Maré Alta",95],["Poeira Vermelha",124]]],
-    ["Jornal 24h","24","#1e3a8a",[["Edição da tarde",60],["Mercado",30],["Brasil Agora",60],["Edição da noite",60]]],
-    ["Luta PPV","PPV","#991b1b",[["Card preliminar",120],["Noite de Campeões",120]]],
-    ["Séries+","S+","#6d28d9",[["Herdeiros E7",50],["Herdeiros E8",50],["Código Zero E1",55],["Código Zero E2",55]]],
-    ["Kids","K","#db2777",[["Turma do Quintal",25],["Dino Rex",25],["Planeta Bolha",25],["Robôs em Férias",25],["Fadas do Lago",25],["Dino Rex",25],["Turma do Quintal",25],["Planeta Bolha",25]]]
-  ];
-  const nowM = (now - start)/60000;
-  let rows = "";
-  CH.forEach(([nm,ab,col,progs],ci)=>{
-    let m = -((ci*13)%35), cells="";
-    progs.forEach(([t,d])=>{
-      const a = Math.max(0,m), b = Math.min(SPAN,m+d);
-      if(b>0 && a<SPAN){
-        const st = new Date(start.getTime()+m*60000), en = new Date(start.getTime()+(m+d)*60000);
-        const isNow = nowM>=m && nowM<m+d;
-        cells += `<div class="prog${isNow?" now":""}" style="left:calc(${pct(a)}% + 3px);width:calc(${pct(b-a)}% - 6px)"><b>${t}</b><small>${hh(st)} – ${hh(en)}</small></div>`;
-      }
-      m += d;
-    });
-    rows += `<div class="epg-row"><div class="ch"><i style="background:${col}">${ab}</i>${nm}</div><div class="progs">${cells}</div></div>`;
-  });
-  $("epg").innerHTML = head + rows + `<div class="nowline" style="left:calc(150px + (100% - 150px) * ${nowM/SPAN})"></div>`;
-  $("clock").textContent = "Agora: " + hh(now);
-}
-buildEPG(); setInterval(buildEPG,60000);
-
-/* ---------- Calculadora ---------- */
-function calc(){
-  const m=+$("mes").value, a=+$("anos").value, r=+$("reaj").value/100;
-  let tot=0; for(let y=0;y<a;y++) tot += m*12*Math.pow(1+r,y);
-  $("vm").textContent="R$ "+m; $("va").textContent=a+(a>1?" anos":" ano"); $("vr").textContent=Math.round(r*100)+"%";
-  $("tot").textContent="R$ "+fmt(Math.round(tot)); $("nm").textContent=a*12;
-}
-["mes","anos","reaj"].forEach(id=>$(id).addEventListener("input",calc)); calc();
-
-/* ---------- Simulador de aparelhos ---------- */
-document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t));
-  $("frame").className="frame "+t.dataset.f; $("stage").className="stage "+t.dataset.f;
-}));
-
-/* ---------- Fluxo do lead ---------- */
-const zap = msg => "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
-const ABRE = "Gostaria de testar grátis o sistema vitalício e sem mensalidade dos canais.";
-function codigo(o){ const m={facebook:"FB",fb:"FB",instagram:"IG",ig:"IG",google:"GG",youtube:"YT",yt:"YT",tiktok:"TK",whatsapp:"WA",direto:"DR"}; const pre=m[o.toLowerCase()]||o.replace(/[^a-z0-9]/gi,"").slice(0,2).toUpperCase()||"DR"; return "BRA-"+pre+Math.random().toString(36).slice(2,7).toUpperCase(); }
-const COD = codigo(origem());
-document.querySelectorAll(".js-zap").forEach(a => a.href = zap(ABRE + "\nCupom de desconto: " + COD));
-let nome = "";
-const passo = n => [1,2,3].forEach(i => { $("step"+i).hidden = i !== n; $("p"+i).classList.toggle("on", i <= n); });
-$("step1").addEventListener("submit", e => {
-  e.preventDefault();
-  nome = $("nome").value.trim();
-  if (nome.length < 2) { $("err").textContent = "Digite seu nome para continuar."; $("nome").focus(); return; }
-  $("err").textContent = "";
-  $("ola").textContent = nome.split(" ")[0] + ", onde você vai assistir?";
-  passo(2);
-});
-$("voltar").addEventListener("click", () => passo(1));
-document.querySelectorAll(".dev").forEach(b => b.addEventListener("click", () => {
-  const ap = b.dataset.d;
-  $("abrirZap").href = zap(ABRE + "\nNome: " + nome + "\nAparelho: " + ap + "\nCupom de desconto: " + COD);
-  $("resumo").innerHTML = "Seu cupom de desconto:<br><span class=\"coupon\">" + COD + "</span><br>Toque no botão para liberar o teste no seu " + (ap==="Outro aparelho" ? "aparelho" : ap) + ".";
-  passo(3);
-  salvarLead({ codigo: COD, nome, aparelho: ap, origem: origem(), data: new Date().toISOString() });
-}));
-function origem(){ try { return new URLSearchParams(location.search).get("utm_source") || "direto"; } catch(e){ return "direto"; } }
-function salvarLead(lead){ if(!CONFIG.planilha) return; try{ fetch(CONFIG.planilha,{method:"POST",mode:"no-cors",body:JSON.stringify(lead)}).catch(()=>{}); }catch(e){} }
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>

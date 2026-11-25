@@ -1,0 +1,319 @@
+{
+ "logo": "logo.png",
+ "whatsapp": "17868233155",
+ "mensagem": "Gostaria de testar grátis o sistema vitalício e sem mensalidade dos canais.",
+ "destaques": [
+  {
+   "tipo": "Série · Temporada 2",
+   "titulo": "Terra da Máfia",
+   "estilo": "anton",
+   "tituloNaArte": true,
+   "relevancia": "99%",
+   "ano": "2026",
+   "idade": "18",
+   "genero": "Crime",
+   "qualidade": "4K",
+   "aoVivo": false,
+   "sinopse": "Em Londres, a família Harrigan luta para manter seu império do crime. Quando tudo dá errado, quem resolve é Harry Da Souza.",
+   "img": "img/b-terradamafia.jpg",
+   "imgMobile": "img/b-terradamafia-m.jpg",
+   "posicao": "center 35%"
+  },
+  {
+   "tipo": "Estreia",
+   "titulo": "Jogos Vorazes: Amanhecer na Colheita",
+   "estilo": "long",
+   "tituloNaArte": false,
+   "relevancia": "98%",
+   "ano": "2026",
+   "idade": "14",
+   "genero": "Ação",
+   "qualidade": "4K",
+   "aoVivo": false,
+   "sinopse": "A 50ª edição dos Jogos Vorazes tem o dobro de tributos. Um deles é o jovem Haymitch Abernathy.",
+   "img": "img/b-jogosvorazes.jpg",
+   "imgMobile": "",
+   "posicao": ""
+  },
+  {
+   "tipo": "Ao vivo hoje",
+   "titulo": "Clássico de Domingo",
+   "estilo": "anton",
+   "tituloNaArte": false,
+   "relevancia": "",
+   "ano": "16h00",
+   "idade": "",
+   "genero": "Campeonato Nacional",
+   "qualidade": "HD",
+   "aoVivo": true,
+   "sinopse": "O jogo mais esperado da rodada, ao vivo e sem pagar pacote extra. Narração, pós-jogo e melhores momentos.",
+   "img": "img/b-estadio.jpg",
+   "imgMobile": "",
+   "posicao": ""
+  },
+  {
+   "tipo": "Série",
+   "titulo": "The Empress",
+   "estilo": "serif",
+   "tituloNaArte": false,
+   "relevancia": "95%",
+   "ano": "Temporada 3",
+   "idade": "14",
+   "genero": "Drama histórico",
+   "qualidade": "4K",
+   "aoVivo": false,
+   "sinopse": "Elisabeth enfrenta as intrigas da corte de Viena e o peso de ser imperatriz.",
+   "img": "img/b-empress.jpg",
+   "imgMobile": "",
+   "posicao": ""
+  }
+ ],
+ "stats": [
+  {
+   "valor": "5000",
+   "destaque": "+",
+   "label": "canais ao vivo"
+  },
+  {
+   "valor": "50000",
+   "destaque": "+",
+   "label": "filmes e séries"
+  },
+  {
+   "valor": "FHD e 4K",
+   "destaque": "",
+   "label": "qualidade de imagem"
+  },
+  {
+   "valor": "R$ ",
+   "destaque": "0",
+   "label": "de mensalidade, para sempre"
+  }
+ ],
+ "top10": [
+  {
+   "titulo": "The Empress",
+   "genero": "Série",
+   "img": "img/t-empress.jpg",
+   "selo": "NOVA TEMPORADA"
+  },
+  {
+   "titulo": "Lupin",
+   "genero": "Série",
+   "img": "img/t-lupin.jpg",
+   "selo": "PARTE 4"
+  },
+  {
+   "titulo": "The Body",
+   "genero": "Série",
+   "img": "img/t-thebody.jpg",
+   "idade": "16"
+  },
+  {
+   "titulo": "Black Doves",
+   "genero": "Série",
+   "img": "img/t-blackdoves.jpg"
+  },
+  {
+   "titulo": "The Mentalist",
+   "genero": "Série",
+   "img": "img/t-mentalist.jpg"
+  },
+  {
+   "titulo": "Suzane Vai Falar",
+   "genero": "Documentário",
+   "img": "img/t-suzane.jpg",
+   "idade": "16"
+  },
+  {
+   "titulo": "One Piece Film Red",
+   "genero": "Anime",
+   "img": "img/t-onepiece.jpg",
+   "idade": "12"
+  },
+  {
+   "titulo": "Os Farofeiros 3",
+   "genero": "Comédia",
+   "img": "img/t-farofeiros.jpg",
+   "idade": "12"
+  },
+  {
+   "titulo": "Jogos Vorazes",
+   "genero": "Ação",
+   "img": "img/t-jogosvorazes.jpg",
+   "selo": "ESTREIA"
+  },
+  {
+   "titulo": "Godzilla Minus Zero",
+   "genero": "Ação",
+   "img": "img/t-godzilla.jpg"
+  }
+ ],
+ "continuar": [
+  {
+   "titulo": "The Empress",
+   "genero": "T3 E2",
+   "img": "img/c-empress.jpg",
+   "progresso": 62,
+   "qualidade": "4K"
+  },
+  {
+   "titulo": "Black Doves",
+   "genero": "T2 E1",
+   "img": "img/c-blackdoves.jpg",
+   "progresso": 20
+  },
+  {
+   "titulo": "The Body",
+   "genero": "T1 E5",
+   "img": "img/c-thebody.jpg",
+   "progresso": 85,
+   "idade": "16"
+  },
+  {
+   "titulo": "JoJo's Bizarre Adventure",
+   "genero": "Anime",
+   "img": "img/c-jojo.jpg",
+   "progresso": 40
+  },
+  {
+   "titulo": "The Gift of Deceit",
+   "genero": "T1 E3",
+   "img": "img/c-giftofdeceit.jpg",
+   "progresso": 12
+  }
+ ],
+ "esportes": [
+  {
+   "titulo": "Capital × Litoral",
+   "genero": "Futebol",
+   "img": "img/e-estadio1.jpg",
+   "mostrarNome": true,
+   "selo": "AO VIVO",
+   "idade": "L"
+  },
+  {
+   "titulo": "Noite de Campeões",
+   "genero": "Luta · PPV",
+   "img": "img/e-mma.jpg",
+   "mostrarNome": true,
+   "selo": "HOJE 22H",
+   "idade": "16"
+  },
+  {
+   "titulo": "Final Continental",
+   "genero": "Futebol",
+   "img": "img/e-estadio2.jpg",
+   "mostrarNome": true,
+   "selo": "AMANHÃ",
+   "idade": "L"
+  },
+  {
+   "titulo": "Grande Prêmio",
+   "genero": "Automobilismo",
+   "img": "img/e-formula.jpg",
+   "mostrarNome": true,
+   "idade": "L"
+  },
+  {
+   "titulo": "Serra × Planalto",
+   "genero": "Futebol",
+   "img": "img/e-estadio3.jpg",
+   "mostrarNome": true,
+   "selo": "AO VIVO",
+   "idade": "L"
+  }
+ ],
+ "infantil": [
+  {
+   "titulo": "Charlie, o Super Cão",
+   "genero": "Animação",
+   "img": "img/k-charlie.jpg",
+   "idade": "L"
+  },
+  {
+   "titulo": "Moana 2",
+   "genero": "Animação",
+   "img": "img/k-moana2.jpg",
+   "idade": "L"
+  },
+  {
+   "titulo": "Toy Story 5",
+   "genero": "Animação",
+   "img": "img/k-toystory5.jpg",
+   "idade": "L"
+  },
+  {
+   "titulo": "Detetives de 4 Patas",
+   "genero": "Animação",
+   "img": "img/k-dogsopera.jpg",
+   "idade": "L"
+  },
+  {
+   "titulo": "O Gatola da Cartola",
+   "genero": "Animação",
+   "img": "img/k-gatola.jpg",
+   "idade": "L"
+  }
+ ],
+ "ticker": [
+  "<b>Capital 2 x 1 Litoral</b> <em>72'</em>",
+  "<b>Noite de Campeões</b> luta principal <em>22h</em>",
+  "<b>Serra 0 x 0 Planalto</b> <em>15'</em>",
+  "<b>Jornal 24h</b> edição da noite",
+  "<b>Final Continental</b> <em>amanhã 21h30</em>",
+  "<b>Grande Prêmio</b> classificação <em>sáb 14h</em>"
+ ],
+ "faq": [
+  {
+   "p": "Como funciona o teste grátis?",
+   "r": "Você chama no WhatsApp, o consultor libera um acesso de teste no seu aparelho e você assiste antes de pagar. Gostou, fecha o vitalício. Não gostou, não paga nada."
+  },
+  {
+   "p": "É vitalício mesmo?",
+   "r": "Sim. Você paga uma vez e não existe mensalidade."
+  },
+  {
+   "p": "Qual a diferença para uma lista pirata?",
+   "r": "A BRATV é uma empresa legalizada, com conteúdo licenciado, nota fiscal e suporte. Não cai, não trava em dia de jogo e não coloca seus dados em risco."
+  },
+  {
+   "p": "Onde posso assistir?",
+   "r": "Smart TV, celular, tablet, TV Box, Fire Stick, Chromecast, Apple TV e computador. O consultor confirma o modelo do seu aparelho antes do pagamento."
+  },
+  {
+   "p": "Como faço o pagamento?",
+   "r": "Pelo Pix, direto no WhatsApp com o consultor. Você recebe a nota fiscal na hora."
+  },
+  {
+   "p": "E se eu não gostar?",
+   "r": "Você tem 7 dias para pedir o dinheiro de volta, conforme o Código de Defesa do Consumidor."
+  }
+ ],
+ "textos": {
+  "cap_titulo": "Teste grátis.",
+  "cap_titulo_destaque": "Depois, nunca mais mensalidade.",
+  "cap_sub": "Veja canais ao vivo, filmes, futebol e PPV no seu aparelho antes de pagar qualquer coisa.",
+  "trial_titulo": "Teste grátis antes de pagar",
+  "trial_texto": "Liberamos um acesso de teste no seu aparelho pelo WhatsApp.",
+  "trial_botao": "Quero meu teste grátis",
+  "sec_top10": "Top 10 da semana",
+  "sec_top10_sub": "Atualizado toda segunda",
+  "sec_continuar": "Continue assistindo",
+  "sec_esportes": "Futebol e pay-per-view",
+  "sec_esportes_sub": "Ao vivo, sem pagar à parte",
+  "sec_infantil": "Para a criançada",
+  "motivo1_t": "Sem mensalidade",
+  "motivo1_d": "Um pagamento único. Nunca mais boleto de TV.",
+  "motivo2_t": "Futebol e PPV inclusos",
+  "motivo2_d": "Campeonatos, lutas e eventos sem cobrança extra.",
+  "motivo3_t": "Legal e estável",
+  "motivo3_d": "Empresa com CNPJ e nota fiscal. Não cai no meio do jogo.",
+  "motivo4_t": "Suporte no WhatsApp",
+  "motivo4_d": "Gente de verdade para instalar com você.",
+  "final_titulo": "Teste grátis hoje",
+  "final_texto": "Veja na sua TV antes de pagar. Depois, nunca mais mensalidade.",
+  "final_botao": "Testar grátis agora",
+  "rodape": "BRATV · CNPJ 00.000.000/0001-00 · Endereço da empresa · Títulos e marcas exibidos são ilustrativos"
+ }
+}
